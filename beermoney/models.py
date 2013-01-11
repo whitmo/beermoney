@@ -17,12 +17,12 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
+class Product(Base):
+    __tablename__ = 'product'
     id = Column(Integer, primary_key=True)
     name = Column(Text, unique=True)
-    value = Column(Integer)
+    price = Column(Integer)
 
-    def __init__(self, name, value):
+    def __init__(self, name, price):
         self.name = name
-        self.value = value
+        self.price = price

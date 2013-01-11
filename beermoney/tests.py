@@ -6,19 +6,19 @@ from pyramid import testing
 from .models import DBSession
 
 
-class TestMyView(unittest.TestCase):
+class TestProductView(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
         from sqlalchemy import create_engine
         engine = create_engine('sqlite://')
         from .models import (
             Base,
-            MyModel,
+            Product,
             )
         DBSession.configure(bind=engine)
         Base.metadata.create_all(engine)
         with transaction.manager:
-            model = MyModel(name='one', value=55)
+            model = Product(name='one',price=55)
             DBSession.add(model)
 
     def tearDown(self):
@@ -26,8 +26,8 @@ class TestMyView(unittest.TestCase):
         testing.tearDown()
 
     def test_it(self):
-        from .views import my_view
+        from .views import ProductView
         request = testing.DummyRequest()
-        info = my_view(request)
+        info = ProductView(request)
         self.assertEqual(info['one'].name, 'one')
         self.assertEqual(info['project'], 'beermoney')
